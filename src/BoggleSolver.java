@@ -48,6 +48,20 @@ public class BoggleSolver {
 
         return validWords;
     }
+    
+    // Returns the score of the given word if it is in the dictionary, zero
+    // otherwise.
+    // (You can assume the word contains only the uppercase letters A through
+    // Z.)
+    public int scoreOf(String word) {
+
+        int score = 0;
+        if (trie.contains(word)) {
+            
+        }
+        return score;
+    }
+
 
     private void dfs(int r, int c) {
 
@@ -101,27 +115,6 @@ public class BoggleSolver {
         }
         
         sb.deleteCharAt(sb.length()-1);
-    }
-
-    // Returns the score of the given word if it is in the dictionary, zero
-    // otherwise.
-    // (You can assume the word contains only the uppercase letters A through
-    // Z.)
-    public int scoreOf(String word) {
-
-        return 0;
-    }
-
-    private int getP(int col, int r, int c) {
-        return c + r * col;
-    }
-
-    private int getC(int col, int pos) {
-        return pos % col; // remainder
-    }
-
-    private int getR(int col, int pos) {
-        return (int) ((double) pos / (double) (col));
     }
 
     public static void main(String[] args) {
