@@ -1,7 +1,5 @@
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Stack;
-import java.util.Vector;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
@@ -16,6 +14,7 @@ public class BoggleSolver {
     private BoggleBoard board;
     private Set<String> validWords;
     private int[] scores = { 0, 0, 0, 1, 1, 2, 3, 5, 11 };
+    private boolean[] visited;
 
     // Initializes the data structure using the given array of strings as the
     // dictionary.
@@ -30,10 +29,11 @@ public class BoggleSolver {
 
     // Returns the set of all valid words in the given Boggle board, as an
     // Iterable.
-    public Iterable<String> getAllValidWords(BoggleBoard board) {
-        this.board = board;
+    public Iterable<String> getAllValidWords(BoggleBoard boardIn) {
+        this.board = boardIn;
         rows = board.rows();
         cols = board.cols();
+        visited = new boolean[rows*cols];
 
         validWords = new HashSet<String>();
 
@@ -58,16 +58,22 @@ public class BoggleSolver {
 
         int score = 0;
         if (trie.contains(word)) {
-            score = scores[Math.min(word.length(), scores.length-1)];
+            score = scores[Math.min(word.length(), scores.length - 1)];
         }
         return score;
     }
 
     private void dfs(int r, int c) {
+        
+        int pos =r*cols+c;
+        if (visited[pos]) {
+            return;
+        }
+        visited[pos] = true;
 
         char letter = board.getLetter(r, c);
         sb.append(letter);
-        if (letter=='Q') {
+        if (letter == 'Q') {
             sb.append('U');
         }
 
@@ -118,8 +124,9 @@ public class BoggleSolver {
 
         }
 
+        visited[pos] = false;
         sb.deleteCharAt(sb.length() - 1);
-        if (letter=='Q') {
+        if (letter == 'Q') {
             sb.deleteCharAt(sb.length() - 1);
         }
 
