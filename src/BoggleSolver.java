@@ -4,11 +4,12 @@ import java.util.Set;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.TST;
+import edu.princeton.cs.algs4.TrieST;
 
 public class BoggleSolver {
 
-    private static int WORD_LENGTH_MIN = 3;
-    
+    private static final int WORD_LENGTH_MIN = 3;
+
     private TST<Boolean> trie;
     private int rows;
     private int cols;
@@ -84,7 +85,7 @@ public class BoggleSolver {
 
         Iterable<String> iter = trie.keysWithPrefix(word);
         if (iter != null && iter.iterator().hasNext()) {
-            
+
             if (word.length() >= WORD_LENGTH_MIN && trie.contains(word)) {
                 validWords.add(word);
             }
