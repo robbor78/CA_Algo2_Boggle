@@ -58,7 +58,7 @@ public class BoggleSolver {
 
         int score = 0;
         if (trie.contains(word)) {
-            score = scores[Math.min(word.length(), scores.length) - 1];
+            score = scores[Math.min(word.length(), scores.length-1)];
         }
         return score;
     }
