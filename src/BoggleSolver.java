@@ -10,7 +10,7 @@ public class BoggleSolver {
 
     private static final int WORD_LENGTH_MIN = 3;
 
-    private TST<Boolean> trie;
+    private MyTrie trie;
     private int rows;
     private int cols;
     private StringBuilder sb;
@@ -24,9 +24,9 @@ public class BoggleSolver {
     // (You can assume each word in the dictionary contains only the uppercase
     // letters A through Z.)
     public BoggleSolver(String[] dictionary) {
-        trie = new TST<>();
+        trie = new MyTrie();
         for (String word : dictionary) {
-            trie.put(word, true);
+            trie.put(word);
         }
     }
 

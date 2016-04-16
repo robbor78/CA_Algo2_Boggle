@@ -83,18 +83,38 @@ public class MyTrie {
 
     public Iterable<String> keysWithPrefix(String prefix) {
         Queue<String> queue = new Queue<String>();
-        Node root = getRootNode(prefix, false);
-        if (root == null) {
-            return queue;
+
+        int length = prefix.length();
+
+        Iterable<Node> roots;
+        if (length == 1) {
+            roots = getRootRange(prefix);
+        } else {
+            Node root = getRootNode(prefix, false);
+            if (root == null) {
+                return queue;
+            }
+
+            Queue<Node> tmp = new Queue<Node>();
+            tmp.enqueue(root);
+            roots = tmp;
         }
-        Node x = get(root, prefix, 2);
-        if (x == null) {
-            return queue;
+
+        for (Node root : roots) {
+            Node x;
+            if (length > 2) {
+                x = get(root, prefix, 2);
+                if (x == null) {
+                    return queue;
+                }
+                if (x.val) {
+                    queue.enqueue(prefix);
+                }
+            } else {
+                x = root;
+            }
+            collect(x.mid, new StringBuilder(prefix), queue);
         }
-        if (x.val) {
-            queue.enqueue(prefix);
-        }
-        collect(x.mid, new StringBuilder(prefix), queue);
         return queue;
     }
 
@@ -104,14 +124,27 @@ public class MyTrie {
             return;
         }
         collect(x.left, prefix, queue);
-        
+
         if (x.val) {
             queue.enqueue(prefix.toString() + x.c);
         }
-        
+
         collect(x.mid, prefix.append(x.c), queue);
         prefix.deleteCharAt(prefix.length() - 1);
         collect(x.right, prefix, queue);
+    }
+
+    private Iterable<Node> getRootRange(String prefix) {
+        int start = (int) prefix.charAt(0) - (int) 'A';
+
+        Queue<Node> roots = new Queue<Node>();
+        for (int i = 0; i < RADIX; i++) {
+            Node x = root[start + i * RADIX];
+            if (x != null) {
+                roots.enqueue(x);
+            }
+        }
+        return roots;
     }
 
     private Node getRootNode(String key, boolean isCreate) {

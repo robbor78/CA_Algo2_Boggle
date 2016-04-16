@@ -191,29 +191,108 @@ public class MyTrieTests {
 
     }
 
+    @Test
+    public void testPrefix2() {
+
+        MyTrie target = new MyTrie();
+
+        String key1 = "HELLO";
+        String key2 = "WORLD";
+        String key3 = "HELLOWORLD";
+        String key4 = "HELLOMARS";
+        String key5 = "HELLOJUPITER";
+
+        testPutContains(target, key1);
+        testPutContains(target, key2);
+        testPutContains(target, key3);
+        testPutContains(target, key4);
+        testPutContains(target, key5);
+
+        String prefix = "WOR";
+        Iterable<String> iter = target.keysWithPrefix(prefix);
+
+        String[] expectedKeys = { key2 };
+        testEqual(expectedKeys, iter);
+
+    }
+
+    @Test
+    public void testPrefix3() {
+
+        MyTrie target = new MyTrie();
+
+        String key1 = "HELLO";
+        String key2 = "WORLD";
+        String key3 = "HELLOWORLD";
+        String key4 = "HELLOMARS";
+        String key5 = "HELLOJUPITER";
+
+        testPutContains(target, key1);
+        testPutContains(target, key2);
+        testPutContains(target, key3);
+        testPutContains(target, key4);
+        testPutContains(target, key5);
+
+        String prefix = "XXX";
+        Iterable<String> iter = target.keysWithPrefix(prefix);
+
+        String[] expectedKeys = null;
+        testEqual(expectedKeys, iter);
+
+    }
+    
+    @Test
+    public void testPrefix4() {
+
+        MyTrie target = new MyTrie();
+
+        String key1 = "HELLO";
+        String key2 = "WORLD";
+        String key3 = "HELLOWORLD";
+        String key4 = "HELLOMARS";
+        String key5 = "HELLOJUPITER";
+
+        testPutContains(target, key1);
+        testPutContains(target, key2);
+        testPutContains(target, key3);
+        testPutContains(target, key4);
+        testPutContains(target, key5);
+
+        String prefix = "H";
+        Iterable<String> iter = target.keysWithPrefix(prefix);
+
+        String[] expectedKeys = { key1, key3, key4, key5 };
+        testEqual(expectedKeys, iter);
+
+    }
+
     private void testEqual(String[] expectedKeys, Iterable<String> actualKeys) {
 
-        int actualCount = 0;
-        for (String actualKey : actualKeys) {
-            actualCount++;
-            assertTrue(Arrays.stream(expectedKeys)
-                    .filter(x -> x.equals(actualKey)).count() == 1);
-        }
-
-        int expectedCount = expectedKeys.length;
-
-        assertEquals(expectedCount, actualCount);
-
-        Arrays.stream(expectedKeys).forEach(x -> {
-            boolean isFound = false;
+        if (expectedKeys == null || expectedKeys.length == 0) {
+            assertFalse(actualKeys.iterator().hasNext());
+        } else {
+            int actualCount = 0;
             for (String actualKey : actualKeys) {
-                isFound = actualKey.equals(x);
-                if (isFound) {
-                    break;
-                }
+                actualCount++;
+                assertTrue(Arrays.stream(expectedKeys)
+                        .filter(x -> x.equals(actualKey)).count() == 1);
             }
-            assertTrue(isFound);
-        });
+
+            int expectedCount = expectedKeys.length;
+
+            assertEquals(expectedCount, actualCount);
+
+            Arrays.stream(expectedKeys).forEach(x -> {
+                boolean isFound = false;
+                for (String actualKey : actualKeys) {
+                    isFound = actualKey.equals(x);
+                    if (isFound) {
+                        break;
+                    }
+                }
+                assertTrue(isFound);
+            });
+        }
     }
 
     private void testPutContains(MyTrie target, String key) {
