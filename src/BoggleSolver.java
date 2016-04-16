@@ -33,7 +33,7 @@ public class BoggleSolver {
         this.board = boardIn;
         rows = board.rows();
         cols = board.cols();
-        visited = new boolean[rows*cols];
+        visited = new boolean[rows * cols];
 
         validWords = new HashSet<String>();
 
@@ -64,8 +64,8 @@ public class BoggleSolver {
     }
 
     private void dfs(int r, int c) {
-        
-        int pos =r*cols+c;
+
+        int pos = r * cols + c;
         if (visited[pos]) {
             return;
         }
