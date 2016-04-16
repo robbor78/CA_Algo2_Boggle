@@ -9,6 +9,7 @@ public class MyTrie {
 
     private static class Node {
         private char c; // character
+        private String base;
         private Node left, mid, right; // left, middle, and right subtries
         private boolean val; // value associated with string
     }
@@ -34,6 +35,7 @@ public class MyTrie {
         if (x == null) {
             x = new Node();
             x.c = c;
+            x.base = null;
             x.val = false;
         }
 
@@ -113,7 +115,16 @@ public class MyTrie {
             } else {
                 x = root;
             }
-            collect(x.mid, new StringBuilder(prefix), queue);
+
+            StringBuilder sb;
+            if (x.base == null) {
+                sb = new StringBuilder(prefix);
+            } else {
+                sb = new StringBuilder(x.base);
+                sb.append(x.c);
+            }
+
+            collect(x.mid, sb, queue);
         }
         return queue;
     }
@@ -157,6 +168,7 @@ public class MyTrie {
         if (isCreate && node == null) {
             node = new Node();
             node.c = key.charAt(2);
+            node.base = key.substring(0, 2);
             node.val = false;
             root[pos] = node;
         }
