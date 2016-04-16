@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 import java.util.Vector;
 
 import edu.princeton.cs.algs4.In;
@@ -7,6 +10,11 @@ import edu.princeton.cs.algs4.TST;
 public class BoggleSolver {
 
     private TST<Boolean> trie;
+    private int rows;
+    private int cols;
+    private StringBuilder sb;
+    private BoggleBoard board;
+    private Set<String> validWords;
 
     // Initializes the data structure using the given array of strings as the
     // dictionary.
@@ -22,7 +30,77 @@ public class BoggleSolver {
     // Returns the set of all valid words in the given Boggle board, as an
     // Iterable.
     public Iterable<String> getAllValidWords(BoggleBoard board) {
-        return new Vector<String>();
+        this.board = board;
+        rows = board.rows();
+        cols = board.cols();
+
+        validWords = new HashSet<String>();
+
+        for (int rStart = 0; rStart < rows; rStart++) {
+            for (int cStart = 0; cStart < cols; cStart++) {
+
+                sb = new StringBuilder();
+
+                dfs(rStart, cStart);
+
+            }
+        }
+
+        return validWords;
+    }
+
+    private void dfs(int r, int c) {
+
+        sb.append(board.getLetter(r, c));
+
+        String word = sb.toString();
+        if (trie.contains(word)) {
+            validWords.add(word);
+        }
+
+        Iterable<String> iter = trie.keysWithPrefix(word);
+        if (iter != null && iter.iterator().hasNext()) {
+
+            boolean isTop = r == 0;
+            boolean isBottom = r == rows - 1;
+            boolean isLeft = c == 0;
+            boolean isRight = c == cols - 1;
+
+            if (!isTop) {
+                dfs(r - 1, c);
+
+                if (!isLeft) {
+                    dfs(r - 1, c - 1);
+                }
+
+                if (!isRight) {
+                    dfs(r - 1, c + 1);
+                }
+            }
+
+            if (!isBottom) {
+                dfs(r + 1, c);
+
+                if (!isLeft) {
+                    dfs(r + 1, c - 1);
+                }
+
+                if (!isRight) {
+                    dfs(r + 1, c + 1);
+                }
+            }
+
+            if (!isLeft) {
+                dfs(r, c - 1);
+            }
+
+            if (!isRight) {
+                dfs(r, c + 1);
+            }
+
+        }
+        
+        sb.deleteCharAt(sb.length()-1);
     }
 
     // Returns the score of the given word if it is in the dictionary, zero
@@ -30,7 +108,20 @@ public class BoggleSolver {
     // (You can assume the word contains only the uppercase letters A through
     // Z.)
     public int scoreOf(String word) {
+
         return 0;
+    }
+
+    private int getP(int col, int r, int c) {
+        return c + r * col;
+    }
+
+    private int getC(int col, int pos) {
+        return pos % col; // remainder
+    }
+
+    private int getR(int col, int pos) {
+        return (int) ((double) pos / (double) (col));
     }
 
     public static void main(String[] args) {
