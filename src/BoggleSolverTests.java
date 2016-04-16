@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stopwatch;
+import edu.princeton.cs.algs4.TST;
 
 public class BoggleSolverTests {
 
@@ -39,7 +40,7 @@ public class BoggleSolverTests {
                 "/run/media/bert/280AC22E0AF59495/coursera/algorithms/2/assignments/5Boggle/boggle/board4x4.txt",
                 "/run/media/bert/280AC22E0AF59495/coursera/algorithms/2/assignments/5Boggle/boggle/board-q.txt" };
 
-        int[] expectedScores = { 33,84 };
+        int[] expectedScores = { 33, 84 };
         int[] expectedWordCount = { 29, 29 };
 
         int length = boardFiles.length;
@@ -55,10 +56,11 @@ public class BoggleSolverTests {
 
             Iterable<String> iter = bs.getAllValidWords(bb);
 
+            assertWordsInDict(dictionary, iter);
+
             assertScore(expectedScores[i], bs, iter);
 
             assertWordCount(expectedWordCount[i], iter);
-
 
         }
     }
@@ -89,6 +91,16 @@ public class BoggleSolverTests {
             Iterable<String> iter) {
         int actualScore = GetScore(bs, iter);
         assertEquals(expectedScore, actualScore);
+    }
+    
+    private void assertWordsInDict(String[] dictionary, Iterable<String> iter) {
+        TST<Boolean> trie = new TST<>();
+        for (String word : dictionary) {
+            trie.put(word, true);
+        }
+        for (String word : iter) {
+            assertTrue(trie.contains(word));
+        }
     }
 
     private void assertWordCount(int expectedWordCount, Iterable<String> iter) {
