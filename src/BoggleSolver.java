@@ -65,7 +65,11 @@ public class BoggleSolver {
 
     private void dfs(int r, int c) {
 
-        sb.append(board.getLetter(r, c));
+        char letter = board.getLetter(r, c);
+        sb.append(letter);
+        if (letter=='Q') {
+            sb.append('U');
+        }
 
         String word = sb.toString();
         if (trie.contains(word)) {
@@ -115,6 +119,10 @@ public class BoggleSolver {
         }
 
         sb.deleteCharAt(sb.length() - 1);
+        if (letter=='Q') {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+
     }
 
     public static void main(String[] args) {
