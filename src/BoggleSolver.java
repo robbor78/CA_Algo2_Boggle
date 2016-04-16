@@ -15,6 +15,7 @@ public class BoggleSolver {
     private StringBuilder sb;
     private BoggleBoard board;
     private Set<String> validWords;
+    private int[] scores = { 0, 0, 0, 1, 1, 2, 3, 5, 11 };
 
     // Initializes the data structure using the given array of strings as the
     // dictionary.
@@ -48,7 +49,7 @@ public class BoggleSolver {
 
         return validWords;
     }
-    
+
     // Returns the score of the given word if it is in the dictionary, zero
     // otherwise.
     // (You can assume the word contains only the uppercase letters A through
@@ -57,11 +58,10 @@ public class BoggleSolver {
 
         int score = 0;
         if (trie.contains(word)) {
-            
+            score = scores[Math.min(word.length(), scores.length) - 1];
         }
         return score;
     }
-
 
     private void dfs(int r, int c) {
 
@@ -113,8 +113,8 @@ public class BoggleSolver {
             }
 
         }
-        
-        sb.deleteCharAt(sb.length()-1);
+
+        sb.deleteCharAt(sb.length() - 1);
     }
 
     public static void main(String[] args) {
