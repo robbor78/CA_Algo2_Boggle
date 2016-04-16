@@ -1,4 +1,3 @@
-
 public class MyTrie {
 
     private static final int RADIX = 26;
@@ -22,16 +21,7 @@ public class MyTrie {
             return;
         }
 
-        int x = key.charAt(0);
-        int y = key.charAt(1);
-
-        int pos = getPos(x, y);
-
-        Node node = root[pos];
-        if (node == null) {
-            node = new Node();
-            node.c = key.charAt(2);
-        }
+        Node node = getRootNode(key);
 
         put(node, key, 2);
     }
@@ -42,6 +32,7 @@ public class MyTrie {
         if (x == null) {
             x = new Node();
             x.c = c;
+            x.val = false;
         }
 
         if (c < x.c) {
@@ -54,6 +45,47 @@ public class MyTrie {
             x.val = true;
         }
         return x;
+    }
+
+    public boolean contains(String key) {
+        if (key.length() <= 2) {
+            return false;
+        }
+
+        Node root = getRootNode(key);
+
+        if (root == null) {
+            return false;
+        } else {
+            return get(root, key, 2);
+        }
+    }
+
+    private boolean get(Node x, String key, int d) {
+        if (x == null) {
+            return false;
+        }
+        char c = key.charAt(d);
+        
+        if (c < x.c) {
+            return get(x.left, key, d);
+        } else if (c > x.c) {
+            return get(x.right, key, d);
+        } else if (d < key.length() - 1) {
+            return get(x.mid, key, d + 1);
+        } else {
+            return x.val;
+        }
+    }
+
+    private Node getRootNode(String key) {
+        int x = key.charAt(0);
+        int y = key.charAt(1);
+
+        int pos = getPos(x, y);
+
+        Node node = root[pos];
+        return node;
     }
 
     private int getPos(int x, int y) {
