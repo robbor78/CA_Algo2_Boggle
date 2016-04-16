@@ -7,6 +7,8 @@ import edu.princeton.cs.algs4.TST;
 
 public class BoggleSolver {
 
+    private static int WORD_LENGTH_MIN = 3;
+    
     private TST<Boolean> trie;
     private int rows;
     private int cols;
@@ -33,7 +35,7 @@ public class BoggleSolver {
         this.board = boardIn;
         rows = board.rows();
         cols = board.cols();
-        visited = new boolean[rows * cols];
+        int dim = rows * cols;
 
         validWords = new HashSet<String>();
 
@@ -41,6 +43,7 @@ public class BoggleSolver {
             for (int cStart = 0; cStart < cols; cStart++) {
 
                 sb = new StringBuilder();
+                visited = new boolean[dim];
 
                 dfs(rStart, cStart);
 
@@ -78,12 +81,13 @@ public class BoggleSolver {
         }
 
         String word = sb.toString();
-        if (trie.contains(word)) {
-            validWords.add(word);
-        }
 
         Iterable<String> iter = trie.keysWithPrefix(word);
         if (iter != null && iter.iterator().hasNext()) {
+            
+            if (word.length() >= WORD_LENGTH_MIN && trie.contains(word)) {
+                validWords.add(word);
+            }
 
             boolean isTop = r == 0;
             boolean isBottom = r == rows - 1;
