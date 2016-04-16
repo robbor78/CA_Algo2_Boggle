@@ -163,6 +163,10 @@ public class MyTrieTests {
         testNotContains(target,key5);
         
     }
+    
+    public void testPrefix1() {
+        
+    }
 
     
     private void testPutContains(MyTrie target, String key) {

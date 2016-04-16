@@ -59,8 +59,8 @@ public class MyTrie {
         if (root == null) {
             return false;
         } else {
-            Node node =get(root, key, 2);
-            return node!=null && node.val;
+            Node node = get(root, key, 2);
+            return node != null && node.val;
         }
     }
 
@@ -80,25 +80,37 @@ public class MyTrie {
             return x;
         }
     }
-    
-//    public Iterable<String> keysWithPrefix(String prefix) {
-//        Queue<String> queue = new Queue<String>();
-//        Node<Value> x = get(root, prefix, 0);
-//        if (x == null) return queue;
-//        if (x.val != null) queue.enqueue(prefix);
-//        collect(x.mid, new StringBuilder(prefix), queue);
-//        return queue;
-//    }
-//
-//    // all keys in subtrie rooted at x with given prefix
-//    private void collect(Node<Value> x, StringBuilder prefix, Queue<String> queue) {
-//        if (x == null) return;
-//        collect(x.left,  prefix, queue);
-//        if (x.val != null) queue.enqueue(prefix.toString() + x.c);
-//        collect(x.mid,   prefix.append(x.c), queue);
-//        prefix.deleteCharAt(prefix.length() - 1);
-//        collect(x.right, prefix, queue);
-//    }
+
+    public Iterable<String> keysWithPrefix(String prefix) {
+        Queue<String> queue = new Queue<String>();
+        Node root = getRootNode(prefix, false);
+        if (root == null) {
+            return queue;
+        }
+        Node x = get(root, prefix, 0);
+        if (x == null) {
+            return queue;
+        }
+        if (x.val) {
+            queue.enqueue(prefix);
+        }
+        collect(x.mid, new StringBuilder(prefix), queue);
+        return queue;
+    }
+
+    // all keys in subtrie rooted at x with given prefix
+    private void collect(Node x, StringBuilder prefix, Queue<String> queue) {
+        if (x == null) {
+            return;
+        }
+        collect(x.left, prefix, queue);
+        if (x.val != null) {
+            queue.enqueue(prefix.toString() + x.c);
+        }
+        collect(x.mid, prefix.append(x.c), queue);
+        prefix.deleteCharAt(prefix.length() - 1);
+        collect(x.right, prefix, queue);
+    }
 
     private Node getRootNode(String key, boolean isCreate) {
         int x = (int) key.charAt(0) - (int) 'A';
