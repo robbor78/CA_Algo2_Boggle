@@ -21,7 +21,7 @@ public class MyTrie {
             return;
         }
 
-        Node node = getRootNode(key);
+        Node node = getRootNode(key, true);
 
         put(node, key, 2);
     }
@@ -52,7 +52,7 @@ public class MyTrie {
             return false;
         }
 
-        Node root = getRootNode(key);
+        Node root = getRootNode(key, false);
 
         if (root == null) {
             return false;
@@ -66,7 +66,7 @@ public class MyTrie {
             return false;
         }
         char c = key.charAt(d);
-        
+
         if (c < x.c) {
             return get(x.left, key, d);
         } else if (c > x.c) {
@@ -78,13 +78,19 @@ public class MyTrie {
         }
     }
 
-    private Node getRootNode(String key) {
-        int x = key.charAt(0);
-        int y = key.charAt(1);
+    private Node getRootNode(String key, boolean isCreate) {
+        int x = (int) key.charAt(0) - (int) 'A';
+        int y = (int) key.charAt(1) - (int) 'A';
 
         int pos = getPos(x, y);
 
         Node node = root[pos];
+        if (isCreate && node == null) {
+            node = new Node();
+            node.c = key.charAt(2);
+            node.val = false;
+            root[pos] = node;
+        }
         return node;
     }
 
