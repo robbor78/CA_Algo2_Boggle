@@ -87,7 +87,7 @@ public class MyTrie {
         if (root == null) {
             return queue;
         }
-        Node x = get(root, prefix, 0);
+        Node x = get(root, prefix, 2);
         if (x == null) {
             return queue;
         }
@@ -104,9 +104,11 @@ public class MyTrie {
             return;
         }
         collect(x.left, prefix, queue);
-        if (x.val != null) {
+        
+        if (x.val) {
             queue.enqueue(prefix.toString() + x.c);
         }
+        
         collect(x.mid, prefix.append(x.c), queue);
         prefix.deleteCharAt(prefix.length() - 1);
         collect(x.right, prefix, queue);
