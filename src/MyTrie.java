@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.Queue;
+
 public class MyTrie {
 
     private static final int RADIX = 26;
@@ -57,13 +59,14 @@ public class MyTrie {
         if (root == null) {
             return false;
         } else {
-            return get(root, key, 2);
+            Node node =get(root, key, 2);
+            return node!=null && node.val;
         }
     }
 
-    private boolean get(Node x, String key, int d) {
+    private Node get(Node x, String key, int d) {
         if (x == null) {
-            return false;
+            return null;
         }
         char c = key.charAt(d);
 
@@ -74,9 +77,28 @@ public class MyTrie {
         } else if (d < key.length() - 1) {
             return get(x.mid, key, d + 1);
         } else {
-            return x.val;
+            return x;
         }
     }
+    
+//    public Iterable<String> keysWithPrefix(String prefix) {
+//        Queue<String> queue = new Queue<String>();
+//        Node<Value> x = get(root, prefix, 0);
+//        if (x == null) return queue;
+//        if (x.val != null) queue.enqueue(prefix);
+//        collect(x.mid, new StringBuilder(prefix), queue);
+//        return queue;
+//    }
+//
+//    // all keys in subtrie rooted at x with given prefix
+//    private void collect(Node<Value> x, StringBuilder prefix, Queue<String> queue) {
+//        if (x == null) return;
+//        collect(x.left,  prefix, queue);
+//        if (x.val != null) queue.enqueue(prefix.toString() + x.c);
+//        collect(x.mid,   prefix.append(x.c), queue);
+//        prefix.deleteCharAt(prefix.length() - 1);
+//        collect(x.right, prefix, queue);
+//    }
 
     private Node getRootNode(String key, boolean isCreate) {
         int x = (int) key.charAt(0) - (int) 'A';

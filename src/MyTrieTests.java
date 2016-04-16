@@ -40,8 +40,11 @@ public class MyTrieTests {
         String key3="HELLOWORLD";
         
         testPutContains(target,key1);
+        testContains(target,key1);
         testPutContains(target,key2);
+        testContains(target,key2);
         testPutContains(target,key3);
+        testContains(target,key3);
 
         testContains(target,key1);
         testContains(target,key2);
@@ -71,6 +74,97 @@ public class MyTrieTests {
         
     }
     
+    @Test
+    public void testNotContains1() {
+        MyTrie target = new MyTrie();
+        
+        testNotContains(target,"HELLO");
+    }
+    
+    @Test
+    public void testNotContains2() {
+        MyTrie target = new MyTrie();
+
+        String key1="HELLO";
+        String key2="WORLD";
+        String key3="HELLOWORLD";
+        String key4="BLAH";
+        
+        testPutContains(target,key1);
+        testContains(target,key1);
+        testNotContains(target,key4);
+        testPutContains(target,key2);
+        testContains(target,key2);
+        testNotContains(target,key4);
+        testPutContains(target,key3);
+        testContains(target,key3);
+        testNotContains(target,key4);
+
+        testContains(target,key1);
+        testContains(target,key2);
+        testContains(target,key3);
+        testNotContains(target,key4);
+        
+    }
+
+    @Test
+    public void testNotContains3() {
+        MyTrie target = new MyTrie();
+
+        String key1="HELLO";
+        String key2="WORLD";
+        String key3="HELLOWORLD";
+        String key4="HELLOMARS";
+        
+        testPutContains(target,key1);
+        testContains(target,key1);
+        testNotContains(target,key4);
+        testPutContains(target,key2);
+        testContains(target,key2);
+        testNotContains(target,key4);
+        testPutContains(target,key3);
+        testContains(target,key3);
+        testNotContains(target,key4);
+
+        testContains(target,key1);
+        testContains(target,key2);
+        testContains(target,key3);
+        testNotContains(target,key4);
+        
+    }
+
+    @Test
+    public void testNotContains4() {
+        MyTrie target = new MyTrie();
+
+        String key1="HELLO";
+        String key2="WORLD";
+        String key3="HELLOWORLD";
+        String key4="HELLOMARS";
+        String key5="HELLOJUPITER";
+        
+        testPutContains(target,key1);
+        testContains(target,key1);
+        testNotContains(target,key4);
+        testNotContains(target,key5);
+        testPutContains(target,key2);
+        testContains(target,key2);
+        testNotContains(target,key4);
+        testNotContains(target,key5);
+        testPutContains(target,key3);
+        testContains(target,key3);
+        testNotContains(target,key4);
+        testNotContains(target,key5);
+
+        testContains(target,key1);
+        testContains(target,key2);
+        testContains(target,key3);
+        testNotContains(target,key4);
+        testNotContains(target,key5);
+        
+    }
+
+    
     private void testPutContains(MyTrie target, String key) {
         target.put(key);
         boolean isContains = target.contains(key);
@@ -82,4 +176,8 @@ public class MyTrieTests {
         assertTrue(isContains);
     }
 
+    private void testNotContains(MyTrie target, String key) {
+        boolean isContains = target.contains(key);
+        assertFalse(isContains);
+    }
 }
