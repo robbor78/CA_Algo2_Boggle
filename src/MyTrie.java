@@ -56,12 +56,12 @@ public class MyTrie {
             return false;
         }
 
-        Node root = getRootNode(key, false);
+        Node rootNode = getRootNode(key, false);
 
-        if (root == null) {
+        if (rootNode == null) {
             return false;
         } else {
-            Node node = get(root, key, 2);
+            Node node = get(rootNode, key, 2);
             return node != null && node.val;
         }
     }
@@ -92,20 +92,20 @@ public class MyTrie {
         if (length == 1) {
             roots = getRootRange(prefix);
         } else {
-            Node root = getRootNode(prefix, false);
-            if (root == null) {
+            Node rootNode = getRootNode(prefix, false);
+            if (rootNode == null) {
                 return queue;
             }
 
             Queue<Node> tmp = new Queue<Node>();
-            tmp.enqueue(root);
+            tmp.enqueue(rootNode);
             roots = tmp;
         }
 
-        for (Node root : roots) {
+        for (Node rootNode : roots) {
             Node x;
             if (length > 2) {
-                x = get(root, prefix, 2);
+                x = get(rootNode, prefix, 2);
                 if (x == null) {
                     return queue;
                 }
@@ -113,7 +113,7 @@ public class MyTrie {
                     queue.enqueue(prefix);
                 }
             } else {
-                x = root;
+                x = rootNode;
                 
                 if (x.val) {
                     queue.enqueue(x.base+x.c);
