@@ -17,6 +17,7 @@ public class BoggleSolver {
     private Set<String> validWords;
     private int[] scores = { 0, 0, 0, 1, 1, 2, 3, 5, 11 };
     private boolean[] visited;
+    private MyTrie.Node current;
 
     // Initializes the data structure using the given array of strings as the
     // dictionary.
@@ -68,8 +69,6 @@ public class BoggleSolver {
         return score;
     }
 
-    private MyTrie.Node current;
-
     private void dfs(int r, int c) {
 
         int pos = r * cols + c;
@@ -88,13 +87,12 @@ public class BoggleSolver {
         boolean isMinLength = word.length() >= WORD_LENGTH_MIN;
 
         boolean isPrefixOrWord = false;
-        
+
         MyTrie.Node remember = current;
-        
 
         if (isMinLength) {
 
-            current = trie.isPrefixOrWord(current,word);
+            current = trie.isPrefixOrWord(current, word);
             isPrefixOrWord = current != null;
 
         }

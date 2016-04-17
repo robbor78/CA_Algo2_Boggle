@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.Stack;
 
 public class MyTrie {
 
@@ -94,6 +95,49 @@ public class MyTrie {
         }
     }
 
+    private Node get2(Node node, String currentKey) {
+        if (node == null) {
+            return null;
+        }
+
+        Stack<Node> stack = new Stack<>();
+        stack.push(node);
+
+        while (stack.size() > 0) {
+
+            Node x = stack.pop();
+            int d = x.lastD;
+
+            char c = currentKey.charAt(d);
+
+            if (c > x.c) {
+                // Node tmp = x.right;
+                if (x.right != null) {
+                    x.right.lastD = d;
+                    stack.push(x.right);
+                }
+            } else if (c < x.c) {
+                // Node tmp = x.left;
+                if (x.left != null) {
+                    x.left.lastD = d;
+                    stack.push(x.left);
+                }
+            } else if (d < currentKey.length() - 1) {
+                // Node tmp = x.mid;
+                if (x.mid != null) {
+                    x.mid.lastD = d + 1;
+                    stack.push(x.mid); // d+1
+                }
+            } else {
+                x.lastD = d;
+                return x;
+            }
+
+        }
+        return null;
+
+    }
+
     public Node isPrefixOrWord(Node startNode, String prefix) {
         Node x;
         // currentKey = prefix;
@@ -104,8 +148,11 @@ public class MyTrie {
             }
 
             x = get(rootNode, prefix, 2);
+            // rootNode.lastD = 2;
+            // x = get2(rootNode, prefix);
         } else {
             x = get(startNode, prefix, startNode.lastD);
+            // x = get2(startNode, prefix);
         }
         if (x == null) {
             isLastPrefixAlsoWord = false;
