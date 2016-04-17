@@ -260,7 +260,7 @@ public class MyTrieTests {
         testPutContains(target, key4);
         testPutContains(target, key5);
 
-        String prefix = "H";
+        String prefix = "HEL";
         Iterable<String> iter = target.keysWithPrefix(prefix);
 
         String[] expectedKeys = { key1, key3, key4, key5 };
@@ -287,7 +287,7 @@ public class MyTrieTests {
 
         Iterable<String> iter = target.keysWithPrefix(key);
 
-        key = "E";
+        key = "EYE";
         iter = target.keysWithPrefix(key);
 
     }

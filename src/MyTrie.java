@@ -86,51 +86,51 @@ public class MyTrie {
     public Iterable<String> keysWithPrefix(String prefix) {
         Queue<String> queue = new Queue<String>();
 
-        int length = prefix.length();
+        // int length = prefix.length();
 
-        Iterable<Node> roots;
-        if (length == 1) {
-            roots = getRootRange(prefix);
+        // Iterable<Node> roots;
+        // if (length == 1) {
+        // roots = getRootRange(prefix);
+        // } else {
+        Node rootNode = getRootNode(prefix, false);
+        if (rootNode == null) {
+            return queue;
+        }
+
+        // Queue<Node> tmp = new Queue<Node>();
+        // tmp.enqueue(rootNode);
+        // roots = tmp;
+        // }
+
+        // for (Node rootNode : roots) {
+        // Node x;
+        // if (length > 2) {
+        Node x = get(rootNode, prefix, 2);
+        if (x == null) {
+            return queue;
+        }
+        if (x.val) {
+            queue.enqueue(prefix);
+        }
+        // } else {
+        // x = rootNode;
+        //
+        // if (x.val) {
+        // queue.enqueue(x.base+x.c);
+        // }
+        //
+        // }
+
+        StringBuilder sb;
+        if (x.base == null) {
+            sb = new StringBuilder(prefix);
         } else {
-            Node rootNode = getRootNode(prefix, false);
-            if (rootNode == null) {
-                return queue;
-            }
-
-            Queue<Node> tmp = new Queue<Node>();
-            tmp.enqueue(rootNode);
-            roots = tmp;
+            sb = new StringBuilder(x.base);
+            sb.append(x.c);
         }
 
-        for (Node rootNode : roots) {
-            Node x;
-            if (length > 2) {
-                x = get(rootNode, prefix, 2);
-                if (x == null) {
-                    return queue;
-                }
-                if (x.val) {
-                    queue.enqueue(prefix);
-                }
-            } else {
-                x = rootNode;
-                
-                if (x.val) {
-                    queue.enqueue(x.base+x.c);
-                }
-                
-            }
-
-            StringBuilder sb;
-            if (x.base == null) {
-                sb = new StringBuilder(prefix);
-            } else {
-                sb = new StringBuilder(x.base);
-                sb.append(x.c);
-            }
-
-            collect(x.mid, sb, queue);
-        }
+        collect(x.mid, sb, queue);
+        // }
         return queue;
     }
 
