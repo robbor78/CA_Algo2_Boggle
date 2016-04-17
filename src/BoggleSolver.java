@@ -85,16 +85,19 @@ public class BoggleSolver {
         String word = sb.toString();
         boolean isMinLength = word.length() >= WORD_LENGTH_MIN;
 
-        Iterable<String> iter = null;
+        // Iterable<String> iter = null;
+        boolean isPrefixOrWord = false;
 
         if (isMinLength) {
-            iter = trie.keysWithPrefix(word);
+            // iter = trie.keysWithPrefix(word);
+            isPrefixOrWord = trie.isPrefixOrWord(word);
         }
 
-        if (!isMinLength
-                || (isMinLength && iter != null && iter.iterator().hasNext())) {
+        if (!isMinLength || (isMinLength && isPrefixOrWord)) {// iter != null &&
+                                                              // iter.iterator().hasNext()))
+                                                              // {
 
-            if (isMinLength && trie.contains(word)) {
+            if (isMinLength && trie.isLastPrefixAlsoWord()) {
                 validWords.add(word);
             }
 

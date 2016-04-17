@@ -6,6 +6,7 @@ public class MyTrie {
     private static final int DIM = RADIX * RADIX;
 
     private Node[] root = new Node[DIM];
+    private boolean isLastPrefixAlsoWord;
 
     private static class Node {
         private char c; // character
@@ -51,7 +52,12 @@ public class MyTrie {
         return x;
     }
 
+    public boolean isLastPrefixAlsoWord() {
+        return isLastPrefixAlsoWord;
+    }
+
     public boolean contains(String key) {
+
         if (key.length() <= 2) {
             return false;
         }
@@ -83,6 +89,22 @@ public class MyTrie {
         }
     }
 
+    public boolean isPrefixOrWord(String prefix) {
+        Node rootNode = getRootNode(prefix, false);
+        if (rootNode == null) {
+            return false;
+        }
+
+        Node x = get(rootNode, prefix, 2);
+        if (x == null) {
+            return false;
+        }
+
+        isLastPrefixAlsoWord = x.val;
+
+        return true;
+    }
+
     public Iterable<String> keysWithPrefix(String prefix) {
         Queue<String> queue = new Queue<String>();
 
@@ -109,7 +131,8 @@ public class MyTrie {
         if (x == null) {
             return queue;
         }
-        if (x.val) {
+        isLastPrefixAlsoWord = x.val;
+        if (isLastPrefixAlsoWord) {
             queue.enqueue(prefix);
         }
         // } else {
@@ -144,9 +167,9 @@ public class MyTrie {
         if (x.val) {
             queue.enqueue(prefix.toString() + x.c);
         }
-
         collect(x.mid, prefix.append(x.c), queue);
         prefix.deleteCharAt(prefix.length() - 1);
+
         collect(x.right, prefix, queue);
     }
 
