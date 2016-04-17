@@ -68,6 +68,8 @@ public class BoggleSolver {
         return score;
     }
 
+    private MyTrie.Node current;
+
     private void dfs(int r, int c) {
 
         int pos = r * cols + c;
@@ -85,17 +87,19 @@ public class BoggleSolver {
         String word = sb.toString();
         boolean isMinLength = word.length() >= WORD_LENGTH_MIN;
 
-        // Iterable<String> iter = null;
         boolean isPrefixOrWord = false;
+        
+        MyTrie.Node remember = current;
+        
 
         if (isMinLength) {
-            // iter = trie.keysWithPrefix(word);
-            isPrefixOrWord = trie.isPrefixOrWord(word);
+
+            current = trie.isPrefixOrWord(current,word);
+            isPrefixOrWord = current != null;
+
         }
 
-        if (!isMinLength || (isMinLength && isPrefixOrWord)) {// iter != null &&
-                                                              // iter.iterator().hasNext()))
-                                                              // {
+        if (!isMinLength || (isMinLength && isPrefixOrWord)) {
 
             if (isMinLength && trie.isLastPrefixAlsoWord()) {
                 validWords.add(word);
@@ -145,6 +149,9 @@ public class BoggleSolver {
         if (letter == 'Q') {
             sb.deleteCharAt(sb.length() - 1);
         }
+
+        // reset root
+        current = remember;
 
     }
 

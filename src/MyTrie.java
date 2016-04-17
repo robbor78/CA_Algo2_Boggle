@@ -8,11 +8,14 @@ public class MyTrie {
     private Node[] root = new Node[DIM];
     private boolean isLastPrefixAlsoWord;
 
-    private static class Node {
+    // private String currentKey;
+
+    public class Node {
         private char c; // character
         private String base;
         private Node left, mid, right; // left, middle, and right subtries
         private boolean val; // value associated with string
+        private int lastD;
     }
 
     public MyTrie() {
@@ -67,42 +70,51 @@ public class MyTrie {
         if (rootNode == null) {
             return false;
         } else {
+            // currentKey =key;
             Node node = get(rootNode, key, 2);
             return node != null && node.val;
         }
     }
 
-    private Node get(Node x, String key, int d) {
+    private Node get(Node x, String currentKey, int d) {
         if (x == null) {
             return null;
         }
-        char c = key.charAt(d);
+        char c = currentKey.charAt(d);
 
         if (c < x.c) {
-            return get(x.left, key, d);
+            return get(x.left, currentKey, d);
         } else if (c > x.c) {
-            return get(x.right, key, d);
-        } else if (d < key.length() - 1) {
-            return get(x.mid, key, d + 1);
+            return get(x.right, currentKey, d);
+        } else if (d < currentKey.length() - 1) {
+            return get(x.mid, currentKey, d + 1);
         } else {
+            x.lastD = d;
             return x;
         }
     }
 
-    public boolean isPrefixOrWord(String prefix) {
-        Node rootNode = getRootNode(prefix, false);
-        if (rootNode == null) {
-            return false;
-        }
+    public Node isPrefixOrWord(Node startNode, String prefix) {
+        Node x;
+        // currentKey = prefix;
+        if (startNode == null) {
+            Node rootNode = getRootNode(prefix, false);
+            if (rootNode == null) {
+                return null;
+            }
 
-        Node x = get(rootNode, prefix, 2);
+            x = get(rootNode, prefix, 2);
+        } else {
+            x = get(startNode, prefix, startNode.lastD);
+        }
         if (x == null) {
-            return false;
+            isLastPrefixAlsoWord = false;
+            return null;
         }
 
         isLastPrefixAlsoWord = x.val;
 
-        return true;
+        return x;
     }
 
     public Iterable<String> keysWithPrefix(String prefix) {
@@ -127,6 +139,7 @@ public class MyTrie {
         // for (Node rootNode : roots) {
         // Node x;
         // if (length > 2) {
+        // currentKey = prefix;
         Node x = get(rootNode, prefix, 2);
         if (x == null) {
             return queue;
