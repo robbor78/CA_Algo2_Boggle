@@ -9,7 +9,7 @@ public class BoggleSolver {
     private static final int WORD_LENGTH_MIN = 3;
 
     private MyTrie trie;
-    //private TST<Boolean> trie;
+    // private TST<Boolean> trie;
     private int rows;
     private int cols;
     private StringBuilder sb;
@@ -24,10 +24,10 @@ public class BoggleSolver {
     // letters A through Z.)
     public BoggleSolver(String[] dictionary) {
         trie = new MyTrie();
-        //trie = new TST<>();
+        // trie = new TST<>();
         for (String word : dictionary) {
             trie.put(word);
-            //trie.put(word,true);
+            // trie.put(word,true);
         }
     }
 
@@ -83,11 +83,18 @@ public class BoggleSolver {
         }
 
         String word = sb.toString();
+        boolean isMinLength = word.length() >= WORD_LENGTH_MIN;
 
-        Iterable<String> iter = trie.keysWithPrefix(word);
-        if (iter != null && iter.iterator().hasNext()) {
+        Iterable<String> iter = null;
 
-            if (word.length() >= WORD_LENGTH_MIN && trie.contains(word)) {
+        if (isMinLength) {
+            iter = trie.keysWithPrefix(word);
+        }
+
+        if (!isMinLength
+                || (isMinLength && iter != null && iter.iterator().hasNext())) {
+
+            if (isMinLength && trie.contains(word)) {
                 validWords.add(word);
             }
 
