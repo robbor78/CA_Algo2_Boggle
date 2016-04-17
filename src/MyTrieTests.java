@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.princeton.cs.algs4.In;
+
 public class MyTrieTests {
 
     @BeforeClass
@@ -240,7 +242,7 @@ public class MyTrieTests {
         testEqual(expectedKeys, iter);
 
     }
-    
+
     @Test
     public void testPrefix4() {
 
@@ -263,6 +265,30 @@ public class MyTrieTests {
 
         String[] expectedKeys = { key1, key3, key4, key5 };
         testEqual(expectedKeys, iter);
+
+    }
+
+    @Test
+    public void testWithDict() {
+        String dictFile = "/run/media/bert/280AC22E0AF59495/coursera/algorithms/2/assignments/5Boggle/boggle/dictionary-algs4.txt";
+        In in = new In(dictFile);
+        String[] dictionary = in.readAllStrings();
+
+        MyTrie target = new MyTrie();
+        for (String word : dictionary) {
+            if (word.length() <= 2) {
+                continue;
+            }
+            testPutContains(target, word);
+        }
+
+        String key = "EYE";
+        testContains(target, key);
+
+        Iterable<String> iter = target.keysWithPrefix(key);
+
+        key = "E";
+        iter = target.keysWithPrefix(key);
 
     }
 
@@ -298,12 +324,12 @@ public class MyTrieTests {
     private void testPutContains(MyTrie target, String key) {
         target.put(key);
         boolean isContains = target.contains(key);
-        assertTrue(isContains);
+        assertTrue(key + " missing!", isContains);
     }
 
     private void testContains(MyTrie target, String key) {
         boolean isContains = target.contains(key);
-        assertTrue(isContains);
+        assertTrue(key + " missing!", isContains);
     }
 
     private void testNotContains(MyTrie target, String key) {

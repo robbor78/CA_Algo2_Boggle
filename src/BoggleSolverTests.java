@@ -66,6 +66,23 @@ public class BoggleSolverTests {
     }
 
     @Test
+    public void Test_Eye() {
+        String dictFile = "/run/media/bert/280AC22E0AF59495/coursera/algorithms/2/assignments/5Boggle/boggle/dictionary-algs4.txt";
+
+        String boardFile = "/run/media/bert/280AC22E0AF59495/coursera/algorithms/2/assignments/5Boggle/boggle/board4x4.txt";
+
+        In in = new In(dictFile);
+        String[] dictionary = in.readAllStrings();
+        BoggleSolver bs = new BoggleSolver(dictionary);
+
+        BoggleBoard bb = new BoggleBoard(boardFile);
+        
+        Iterable<String> iter = bs.getAllValidWords(bb);
+
+        
+    }
+
+    @Test
     public void StressTest() {
         String dictFile = "/run/media/bert/280AC22E0AF59495/coursera/algorithms/2/assignments/5Boggle/boggle/dictionary-yawl.txt";
         In in = new In(dictFile);
@@ -92,7 +109,7 @@ public class BoggleSolverTests {
         int actualScore = GetScore(bs, iter);
         assertEquals(expectedScore, actualScore);
     }
-    
+
     private void assertWordsInDict(String[] dictionary, Iterable<String> iter) {
         TST<Boolean> trie = new TST<>();
         for (String word : dictionary) {

@@ -11,6 +11,7 @@ public class BoggleSolver {
     private static final int WORD_LENGTH_MIN = 3;
 
     private MyTrie trie;
+    //private TST<Boolean> trie;
     private int rows;
     private int cols;
     private StringBuilder sb;
@@ -25,8 +26,10 @@ public class BoggleSolver {
     // letters A through Z.)
     public BoggleSolver(String[] dictionary) {
         trie = new MyTrie();
+        //trie = new TST<>();
         for (String word : dictionary) {
             trie.put(word);
+            //trie.put(word,true);
         }
     }
 

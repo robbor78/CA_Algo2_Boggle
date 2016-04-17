@@ -114,6 +114,11 @@ public class MyTrie {
                 }
             } else {
                 x = root;
+                
+                if (x.val) {
+                    queue.enqueue(x.base+x.c);
+                }
+                
             }
 
             StringBuilder sb;
