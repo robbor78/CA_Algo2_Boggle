@@ -7,7 +7,7 @@ public class MyTrie {
     private static final int DIM = RADIX * RADIX;
 
     private Node[] root = new Node[DIM];
-    private boolean isLastPrefixAlsoWord;
+    //private boolean isLastPrefixAlsoWord;
 
     // private String currentKey;
 
@@ -15,7 +15,7 @@ public class MyTrie {
         private char c; // character
         private String base;
         private Node left, mid, right; // left, middle, and right subtries
-        private boolean val; // value associated with string
+        public boolean val; // value associated with string
         private int lastD;
     }
 
@@ -56,9 +56,9 @@ public class MyTrie {
         return x;
     }
 
-    public boolean isLastPrefixAlsoWord() {
-        return isLastPrefixAlsoWord;
-    }
+//    public boolean isLastPrefixAlsoWord() {
+//        return isLastPrefixAlsoWord;
+//    }
 
     public boolean contains(String key) {
 
@@ -155,11 +155,11 @@ public class MyTrie {
             // x = get2(startNode, prefix);
         }
         if (x == null) {
-            isLastPrefixAlsoWord = false;
+            //isLastPrefixAlsoWord= false;
             return null;
         }
 
-        isLastPrefixAlsoWord = x.val;
+        //isLastPrefixAlsoWord = x.val;
 
         return x;
     }
@@ -167,42 +167,26 @@ public class MyTrie {
     public Iterable<String> keysWithPrefix(String prefix) {
         Queue<String> queue = new Queue<String>();
 
-        // int length = prefix.length();
+      
 
-        // Iterable<Node> roots;
-        // if (length == 1) {
-        // roots = getRootRange(prefix);
-        // } else {
         Node rootNode = getRootNode(prefix, false);
         if (rootNode == null) {
             return queue;
         }
 
-        // Queue<Node> tmp = new Queue<Node>();
-        // tmp.enqueue(rootNode);
-        // roots = tmp;
-        // }
+       
 
-        // for (Node rootNode : roots) {
-        // Node x;
-        // if (length > 2) {
-        // currentKey = prefix;
+        
+
         Node x = get(rootNode, prefix, 2);
         if (x == null) {
             return queue;
         }
-        isLastPrefixAlsoWord = x.val;
-        if (isLastPrefixAlsoWord) {
-            queue.enqueue(prefix);
-        }
-        // } else {
-        // x = rootNode;
-        //
-        // if (x.val) {
-        // queue.enqueue(x.base+x.c);
-        // }
-        //
-        // }
+//        isLastPrefixAlsoWord = x.val;
+//        if (isLastPrefixAlsoWord) {
+//            queue.enqueue(prefix);
+//        }
+
 
         StringBuilder sb;
         if (x.base == null) {
